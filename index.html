@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HpL - Hussain Premier League</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">HpL <span>Hussain Premier League</span></div>
+  <div class="wallet-mini">Wallet: Rs. <b id="bal">0</b></div>
+  <button id="loginBtn">Login / Signup</button>
+</header>
+
+<section id="home">
+  <h1 class="hero-title">Hussain Premier League<br><small>Play. Win. Become Champion.</small></h1>
+  <p class="hero-sub">Entry Fee 100 - 50000 PKR | Commission 25% | Winner Takes All</p>
+  <div class="games-grid">
+    <div class="game-card" onclick="openGame('cricket')">Cricket Tournament<br><small>Knockout - 6 to 100 Teams</small><button>Join Now</button></div>
+    <div class="game-card" onclick="openGame('football')">Football Tournament<br><small>Knockout - 6 to 100 Teams</small><button>Join Now</button></div>
+    <div class="game-card" onclick="openGame('pingpong')">Ping Pong<br><small>Knockout - 1 vs 1</small><button>Join Now</button></div>
+    <div class="game-card" onclick="openGame('boxing')">Boxing Tournament<br><small>1 vs 1 Fight - 2 Min</small><button>Play Boxing</button></div>
+    <div class="game-card" onclick="openGame('racing')">Motor Racing<br><small>Hill Climb - 2000m Race</small><button>Play Racing</button></div>
+  </div>
+</section>
+
+<section class="pool-box">
+  <h3>Prize Pool Calculation</h3>
+  <p>Total Pool: <b>Rs. 10000</b> - 25% HpL Fee = <b style="color:#ffcc00">Rs. 7500 Winner Prize</b></p>
+  <div id="bracket"></div>
+</section>
+
+<section id="boxingGame" class="game-box">
+  <h2>Boxing - 1 vs 1</h2>
+  <div class="health-row">
+    <div>YOU <div class="bar"><div id="hp1"></div></div></div>
+    <div id="timer">02:00</div>
+    <div>OPPONENT <div class="bar"><div id="hp2"></div></div></div>
+  </div>
+  <canvas id="boxingCanvas" width="360" height="320"></canvas>
+  <div class="controls">
+    <button onclick="boxMove('left')">Left</button>
+    <button onclick="boxHit('punch')">PUNCH</button>
+    <button onclick="boxHit('block')">BLOCK</button>
+    <button onclick="boxHit('kick')">KICK</button>
+    <button onclick="boxMove('right')">Right</button>
+  </div>
+  <button id="readyBtn" class="big-btn">READY - 3,2,1 FIGHT</button>
+</section>
+
+<section id="racingGame" class="game-box">
+  <h2>Motor Racing - Hill Climb</h2>
+  <p>Distance: <b id="dist">0</b> / 2000m | Fuel: <b id="fuel">100</b>% | Car:
+  <select id="carSelect">
+    <option>BIG FINGER (Free)</option>
+    <option>CAR CAR (Free)</option>
+    <option>HOT ROD (VIP - 40000 PKR)</option>
+  </select>
+  </p>
+  <canvas id="racingCanvas" width="360" height="320"></canvas>
+  <div class="controls">
+    <button id="accBtn">ACCELERATE</button>
+    <button id="brakeBtn">BRAKE</button>
+  </div>
+  <button onclick="startRace()" class="big-btn">START RACE</button>
+</section>
+
+<section id="walletSec" class="wallet-box">
+  <h2>My Wallet</h2>
+  <div class="jazzcard">
+    <p>Wallet Balance</p>
+    <h1>Rs. <span id="wBal">0</span></h1>
+    <p>Min Deposit 100 | Min Withdraw 500 | Daily Limit 100,000</p>
+  </div>
+  <input id="depAmt" type="number" placeholder="Deposit Amount - Min 100">
+  <button onclick="doDeposit()" class="big-btn green">Deposit via Keenu</button>
+  <input id="withAmt" type="number" placeholder="Withdraw Amount - Min 500">
+  <button id="withBtn" onclick="doWithdraw()" class="big-btn gold">Withdraw Request</button>
+  <p id="withMsg" style="color:red"></p>
+  <h3>My Payment Accounts</h3>
+  <select id="payType">
+    <option>Jazz Cash</option><option>Easy Paisa</option><option>Naya Pay</option><option>Sada Pay</option><option>Raast</option><option>Bank - Meezan</option><option>Bank - HBL</option><option>Bank - UBL</option><option>Bank - Allied</option>
+  </select>
+  <input id="payNum" placeholder="Account / Mobile Number">
+  <button onclick="addAccount()">Add Account</button>
+  <div id="paymentAccounts"></div>
+</section>
+
+<section id="loginSec" class="wallet-box">
+  <h2>Login / Signup</h2>
+  <button class="big-btn">Continue with Google</button>
+  <input id="regName" placeholder="Full Name">
+  <input id="regMobile" placeholder="Mobile Number">
+  <input id="regPass" type="password" placeholder="Password">
+  <button onclick="doRegister()" class="big-btn green">Direct Register</button>
+  <input id="loginEmail" placeholder="Email">
+  <input id="loginPass" type="password" placeholder="Password">
+  <button onclick="doLogin()" class="big-btn">Login with Email</button>
+</section>
+
+<section class="wallet-box">
+  <h2>Admin Dashboard</h2>
+  <p>Withdrawal requests will appear here. Admin will approve.</p>
+  <div id="adminList">No requests yet</div>
+  <h3>Leaderboard - Top Winners</h3>
+  <div id="leaderboard">1. Champion - Rs. 7500<br>2. Runner Up<br>3. Top Player</div>
+</section>
+
+<footer style="text-align:center;padding:20px;color:#aaa">
+  <a href="privacy.html" style="color:#00ff88;margin:5px">Privacy Policy</a> |
+  <a href="terms.html" style="color:#00ff88;margin:5px">Terms & Conditions</a> |
+  <a href="refund.html" style="color:#00ff88;margin:5px">Refund Policy</a>
+  <p>© 2026 HpL - Hussain Premier League. All Rights Reserved.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
