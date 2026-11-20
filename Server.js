@@ -100,4 +100,8 @@ app.post('/api/tournament/create', async (req, res) => {
 app.get('/', (req, res) => res.send('HpL Backend is LIVE'));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log('HpL Backend LIVE on ' + PORT));
+
+export default app;
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => console.log('HpL Backend LIVE on ' + PORT));
+}
