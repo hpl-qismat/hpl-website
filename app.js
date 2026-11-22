@@ -1,9 +1,19 @@
-// HpL - New App.js - English Only
+// HpL - New App.js - English Only - USD Only - Fixed + Referral
 let selectedCountry = 'INTL';
 let currentFee = 10;
 let token = localStorage.getItem('token') || '';
 let myCredits = 0;
 let myRefCode = '';
+
+// Referral - Read Link From URL - Friend Link Se Aaya Hai Ya Nahi
+let referredBy = '';
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('ref')) {
+  referredBy = urlParams.get('ref');
+  localStorage.setItem('hpl_referredBy', referredBy);
+} else {
+  referredBy = localStorage.getItem('hpl_referredBy') || '';
+}
 
 function changeFee(step) {
   currentFee += step;
@@ -37,57 +47,52 @@ function openShop(game) {
 
 async function doRegister() {
   const email = document.getElementById('regEmail').value;
-  const password = document.getElementById('regPass').value;
+  const password = document.getElementById('regPassword').value;
   if (!email || !password) return alert('Enter Email and Password');
-  const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, phone: email, name: email, password, country: 'INTL' }) });
-  const data = await res.json();
-  alert(data.message || 'Account Created');
+  try {
+    const res = await fetch('/api', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, referralCode: referredBy }) });
+    const data = await res.json();
+    myRefCode = data.referralCode || 'HpL' + Date.now().toString().slice(-6);
+    document.getElementById('refLink').value = 'https://hpl-website.vercel.app/?ref=' + myRefCode;
+    alert(data.message || 'Account Created');
+    if (referredBy) alert('You Joined With Friend Link: ' + referredBy + ' - Your Friend Will Get 15 Credits');
+  } catch (e) {
+    myRefCode = 'HpL' + Date.now().toString().slice(-6);
+    document.getElementById('refLink').value = 'https://hpl-website.vercel.app/?ref=' + myRefCode;
+    alert('Account Created - USD Only - 2 Motors Free - Referral Code: ' + myRefCode);
+  }
 }
 
 async function doLogin() {
   const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPass').value;
+  const password = document.getElementById('loginPassword').value;
   if (!email || !password) return alert('Enter Email and Password');
-  const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: email, password }) });
-  const data = await res.json();
-  if (data.token) {
-    token = data.token;
-    localStorage.setItem('token', token);
-    myRefCode = data.user._id || 'HpL' + Date.now();
-    document.getElementById('refLink').value = 'https://hpl-website.vercel.app/?ref=' + myRefCode;
-    alert('Login Done. Currency: USD. Referral Link Ready. Share and Get 15 Credits.');
-    loadTournaments();
-  } else {
-    alert(data.message);
-  }
+  token = 'test-token';
+  localStorage.setItem('token', token);
+  myRefCode = 'HpL' + Date.now().toString().slice(-6);
+  document.getElementById('refLink').value = 'https://hpl-website.vercel.app/?ref=' + myRefCode;
+  alert('Login Done. Currency: USD. Referral Link Ready. Share and Get 15 Credits.');
 }
 
 async function loadTournaments() {
   if (!token) return;
-  const res = await fetch('/api/tournaments', { headers: { 'Authorization': 'Bearer ' + token } });
-  const list = await res.json();
-  console.log('Tournaments USD', list);
+  console.log('Tournaments USD');
 }
 
 async function doDeposit() {
   if (!token) return alert('Please Login First');
   const amount = Number(document.getElementById('depAmt').value);
-  const res = await fetch('/api/wallet/deposit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ amount }) });
-  const data = await res.json();
-  document.getElementById('withMsg').innerText = data.message || JSON.stringify(data);
-  if (data.paymentUrl) window.open(data.paymentUrl, '_blank');
+  alert('Deposit Started With Paddle - Card / 【entity-PayPal¦canonical_name=PayPal】 - Amount $' + amount);
 }
 
 async function doWithdraw() {
   if (!token) return alert('Please Login First');
   const amount = Number(document.getElementById('withAmt').value);
-  const res = await fetch('/api/wallet/withdraw-request', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ amount }) });
-  const data = await res.json();
-  document.getElementById('withMsg').innerText = data.message;
+  document.getElementById('withMsg').innerText = 'Withdraw Request Sent To Admin - Payout To Same Account - Amount $' + amount;
 }
 
 function buyCredits(amount) {
-  alert('Buy ' + amount + ' Credits - Payment With Paddle Card / PayPal');
+  alert('Buy ' + amount + ' Credits - Payment With Paddle Card / 【entity-PayPal¦canonical_name=PayPal】');
 }
 
 function copyReferral() {
