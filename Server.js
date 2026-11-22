@@ -1,14 +1,12 @@
-// HpL - New Server.js - English Only - USD Only - Credits System - Static Fixed
-const 【entity-express¦canonical_name=express】 = require('【entity-express¦canonical_name=express】');
+// HpL - Correct Server.js - English Only - USD Only - Credits System - No Static Block
+const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const path = require('path');
-const app = 【entity-express¦canonical_name=express】();
+const app = express();
 app.use(cors());
-app.use(【entity-express¦canonical_name=express】.json());
-app.use(【entity-express¦canonical_name=express】.static(path.join(__dirname, '.')));
+app.use(express.json());
 
 const MONGO_URI = process.env.MONGO_URI || '';
 const JWT_SECRET = process.env.JWT_SECRET || 'HplSecret123456';
@@ -100,7 +98,7 @@ app.post('/api/tournaments', auth, async (req, res) => {
 app.post('/api/wallet/deposit', auth, async (req, res) => {
   const { amount } = req.body;
   if (Number(amount) < 10) return res.json({ message: 'Minimum Deposit 10 USD' });
-  res.json({ message: 'Deposit Started With Paddle - Card / 【entity-PayPal¦canonical_name=PayPal】 / Apple Pay / 【entity-Google Pay¦canonical_name=Google Pay】', paymentUrl: '' });
+  res.json({ message: 'Deposit Started With Paddle - Card / PayPal / Apple Pay / Google Pay', paymentUrl: '' });
 });
 
 app.post('/api/wallet/withdraw-request', auth, async (req, res) => {
