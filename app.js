@@ -1,88 +1,100 @@
-// HpL - Full App.js - Matches index.html + PKR / USD Separate
-let selectedCountry = 'PK';
+// HpL - New App.js - English Only
+let selectedCountry = 'INTL';
+let currentFee = 10;
 let token = localStorage.getItem('token') || '';
-let userCurrency = 'PKR';
+let myCredits = 0;
+let myRefCode = '';
 
-function setCountry(c){
+function changeFee(step) {
+  currentFee += step;
+  if (currentFee < 10) currentFee = 10;
+  if (currentFee > 250) currentFee = 250;
+  document.getElementById('feeLabel').innerText = '$' + currentFee;
+  let feeTexts = document.querySelectorAll('.feeText');
+  feeTexts.forEach(el => el.innerText = '$' + currentFee);
+  let winner = (currentFee * 0.60).toFixed(2);
+  let runner = (currentFee * 0.25).toFixed(2);
+  document.getElementById('prizePreview').innerText = 'Winner: $' + winner + ' | Runner Up: $' + runner;
+}
+
+function setCountry(c) {
   selectedCountry = c;
-  alert(c === 'PK' ? 'Pakistan - PKR Me Khelunga' : 'Other Country - Dollar Me Khelunga');
+  alert('International - USD Selected');
 }
 
-function openGame(name){
-  alert(name + ' Tournament - Pehle Login / Signup karo, phir Join hoga');
-  document.getElementById('loginSec').scrollIntoView({behavior:'smooth'});
+function openGame(name) {
+  if (!token) {
+    alert('Please Login First');
+    document.getElementById('loginSec').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  alert(name + ' Tournament Joined With Fee $' + currentFee);
 }
 
-// --- REGISTER ---
-async function doRegister(){
-  const name = document.getElementById('regName').value;
-  const phone = document.getElementById('regMobile').value;
+function openShop(game) {
+  alert(game + ' Shop - 2 Items Free. Next Items With Credits. Step 1 Free.');
+}
+
+async function doRegister() {
+  const email = document.getElementById('regEmail').value;
   const password = document.getElementById('regPass').value;
-  if(!name || !phone || !password) return alert('Sab kuch bharo');
-  const res = await fetch('/api/register', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name, phone, password, country: selectedCountry})});
+  if (!email || !password) return alert('Enter Email and Password');
+  const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, phone: email, name: email, password, country: 'INTL' }) });
   const data = await res.json();
-  alert(data.message + (data.currency ? ' - Currency: ' + data.currency : ''));
+  alert(data.message || 'Account Created');
 }
 
-// --- LOGIN ---
-async function doLogin(){
-  const phone = document.getElementById('loginEmail').value;
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPass').value;
-  if(!phone || !password) return alert('Mobile / Email aur Password bharo');
-  const res = await fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({phone, password})});
+  if (!email || !password) return alert('Enter Email and Password');
+  const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: email, password }) });
   const data = await res.json();
-  if(data.token){
+  if (data.token) {
     token = data.token;
     localStorage.setItem('token', token);
-    userCurrency = data.user.currency;
-    alert('Login ho gaya! Currency: ' + userCurrency);
+    myRefCode = data.user._id || 'HpL' + Date.now();
+    document.getElementById('refLink').value = 'https://hpl-website.vercel.app/?ref=' + myRefCode;
+    alert('Login Done. Currency: USD. Referral Link Ready. Share and Get 15 Credits.');
     loadTournaments();
   } else {
     alert(data.message);
   }
 }
 
-// --- TOURNAMENTS - Backend filter karega PKR / USD ---
-async function loadTournaments(){
-  if(!token) return;
-  const res = await fetch('/api/tournaments', {headers:{'Authorization':'Bearer ' + token}});
+async function loadTournaments() {
+  if (!token) return;
+  const res = await fetch('/api/tournaments', { headers: { 'Authorization': 'Bearer ' + token } });
   const list = await res.json();
-  console.log('Tournaments for ' + userCurrency, list);
-  alert(userCurrency + ' wale ' + list.length + ' Tournament mile');
+  console.log('Tournaments USD', list);
 }
 
-// --- WALLET ---
-async function doDeposit(){
-  if(!token) return alert('Pehle Login karo');
+async function doDeposit() {
+  if (!token) return alert('Please Login First');
   const amount = Number(document.getElementById('depAmt').value);
-  const res = await fetch('/api/wallet/deposit', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer ' + token}, body: JSON.stringify({amount})});
+  const res = await fetch('/api/wallet/deposit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ amount }) });
   const data = await res.json();
   document.getElementById('withMsg').innerText = data.message || JSON.stringify(data);
-  if(data.paymentUrl) window.open(data.paymentUrl, '_blank');
+  if (data.paymentUrl) window.open(data.paymentUrl, '_blank');
 }
 
-async function doWithdraw(){
-  if(!token) return alert('Pehle Login karo');
+async function doWithdraw() {
+  if (!token) return alert('Please Login First');
   const amount = Number(document.getElementById('withAmt').value);
-  const res = await fetch('/api/wallet/withdraw-request', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer ' + token}, body: JSON.stringify({amount})});
+  const res = await fetch('/api/wallet/withdraw-request', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ amount }) });
   const data = await res.json();
   document.getElementById('withMsg').innerText = data.message;
 }
 
-function addAccount(){
-  const type = document.getElementById('payType').value;
-  const num = document.getElementById('payNum').value;
-  if(!num) return alert('Account / Mobile Number bharo');
-  document.getElementById('paymentAccounts').innerHTML += '<p>' + type + ' - ' + num + '</p>';
-  alert('Account Add ho gaya: ' + type);
+function buyCredits(amount) {
+  alert('Buy ' + amount + ' Credits - Payment With Paddle Card / PayPal');
 }
 
-// --- BOXING - Simple ---
-function boxMove(dir){ console.log('Box Move ' + dir); }
-function boxHit(hit){ console.log('Box Hit ' + hit); alert('Boxing Hit: ' + hit + ' - Login karke khelo, jeetne pe Prize milega'); }
+function copyReferral() {
+  const link = document.getElementById('refLink');
+  link.select();
+  document.execCommand('copy');
+  alert('Referral Link Copied. Share It. Get 15 Credits Per Friend.');
+}
 
-// --- RACING - Simple ---
-function startRace(){ alert('Motor Racing Hill Climb - Race Start! Login karke khelo'); }
-
-// Auto load if already logged in
-if(token){ loadTournaments(); }
+if (token) { loadTournaments(); }
