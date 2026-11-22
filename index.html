@@ -3,121 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HpL - Hussain Premier League</title>
+<title>Hussain Premier League - Play. Win. Become Champion.</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="logo">HpL <span>Hussain Premier League</span></div>
-  <div class="wallet-mini">Wallet: Rs. <b id="bal">0</b></div>
-  <button id="loginBtn">Login / Signup</button>
+  <div class="logo">HUSSAIN PREMIER LEAGUE</div>
+  <div class="top-right">
+    <span>Credits: <b id="creditBal">0</b></span>
+    <span>Wallet: <b id="walletBal">$0</b></span>
+    <button onclick="document.getElementById('loginSec').scrollIntoView({behavior:'smooth'})">Login / Signup</button>
+  </div>
 </header>
 
-<section id="home">
-  <h1 class="hero-title">Hussain Premier League<br><small>Play. Win. Become Champion.</small></h1>
-  <p class="hero-sub">Entry Fee 100 - 50000 PKR | Commission 25% | Winner Takes All</p>
-  <div class="games-grid">
-    <div class="game-card" onclick="openGame('cricket')">Cricket Tournament<br><small>Knockout - 6 to 100 Teams</small><button>Join Now</button></div>
-    <div class="game-card" onclick="openGame('football')">Football Tournament<br><small>Knockout - 6 to 100 Teams</small><button>Join Now</button></div>
-    <div class="game-card" onclick="openGame('pingpong')">Ping Pong<br><small>Knockout - 1 vs 1</small><button>Join Now</button></div>
-    <div class="game-card" onclick="openGame('boxing')">Boxing Tournament<br><small>1 vs 1 Fight - 2 Min</small><button>Play Boxing</button></div>
-    <div class="game-card" onclick="openGame('racing')">Motor Racing<br><small>Hill Climb - 2000m Race</small><button>Play Racing</button></div>
-  </div>
+<section class="hero">
+  <h1>Play. Win. Become Champion.</h1>
+  <p>5 Games. One Account. One Credit System. Entry $10 to $250.</p>
+  <p>Winner Gets 60%. Runner Up Gets 25%. Tournament Win Gives 500 Credits.</p>
 </section>
 
-<section class="pool-box">
-  <h3>Prize Pool Calculation</h3>
-  <p>Total Pool: <b>Rs. 10000</b> - 25% HpL Fee = <b style="color:#ffcc00">Rs. 7500 Winner Prize</b></p>
-  <div id="bracket"></div>
+<!-- ENTRY FEE SELECTOR - SAME FOR ALL GAMES -->
+<section class="fee-box">
+  <h2>Select Entry Fee</h2>
+  <div class="fee-control">
+    <button onclick="changeFee(-10)">-</button>
+    <span id="feeLabel">$10</span>
+    <button onclick="changeFee(10)">+</button>
+  </div>
+  <p>Min $10. Max $250. Step $10.</p>
+  <p id="prizePreview">Winner: $6 | Runner Up: $2.50</p>
 </section>
 
-<section id="boxingGame" class="game-box">
-  <h2>Boxing - 1 vs 1</h2>
-  <div class="health-row">
-    <div>YOU <div class="bar"><div id="hp1"></div></div></div>
-    <div id="timer">02:00</div>
-    <div>OPPONENT <div class="bar"><div id="hp2"></div></div></div>
-  </div>
-  <canvas id="boxingCanvas" width="360" height="320"></canvas>
-  <div class="controls">
-    <button onclick="boxMove('left')">Left</button>
-    <button onclick="boxHit('punch')">PUNCH</button>
-    <button onclick="boxHit('block')">BLOCK</button>
-    <button onclick="boxHit('kick')">KICK</button>
-    <button onclick="boxMove('right')">Right</button>
-  </div>
-  <button id="readyBtn" class="big-btn">READY - 3,2,1 FIGHT</button>
+<!-- CRICKET - GREEN GROUND STYLE -->
+<section class="game-card cricket">
+  <h2>Cricket Tournament</h2>
+  <p>Green Ground. Pitch. Wicket.</p>
+  <p>2 Bats Free. Next Bats With Credits. Bat Step 1 Free.</p>
+  <p>Power: Energy Drink - 30 Credits For One Time Use.</p>
+  <button onclick="openGame('cricket')">Join Cricket - <span class="feeText">$10</span></button>
+  <button onclick="openShop('cricket')">Cricket Shop - Bats</button>
 </section>
 
-<section id="racingGame" class="game-box">
-  <h2>Motor Racing - Hill Climb</h2>
-  <p>Distance: <b id="dist">0</b> / 2000m | Fuel: <b id="fuel">100</b>% | Car:
-  <select id="carSelect">
-    <option>BIG FINGER (Free)</option>
-    <option>CAR CAR (Free)</option>
-    <option>HOT ROD (VIP - 40000 PKR)</option>
-  </select>
-  </p>
-  <canvas id="racingCanvas" width="360" height="320"></canvas>
-  <div class="controls">
-    <button id="accBtn">ACCELERATE</button>
-    <button id="brakeBtn">BRAKE</button>
-  </div>
-  <button onclick="startRace()" class="big-btn">START RACE</button>
+<!-- FOOTBALL - STADIUM STYLE -->
+<section class="game-card football">
+  <h2>Football Tournament</h2>
+  <p>Stadium. Lights. Crowd.</p>
+  <p>2 Shoes Free. Next Shoes With Credits. Shoes Step 1 Free.</p>
+  <p>Power: Power Shot - 30 Credits For One Time Use.</p>
+  <button onclick="openGame('football')">Join Football - <span class="feeText">$10</span></button>
+  <button onclick="openShop('football')">Football Shop - Shoes</button>
 </section>
 
-<section id="walletSec" class="wallet-box">
+<!-- PING PONG - TABLE STYLE -->
+<section class="game-card pingpong">
+  <h2>Ping Pong Tournament</h2>
+  <p>Blue Table. Fast Game.</p>
+  <p>2 Rackets Free. Next Rackets With Credits. Racket Step 1 Free.</p>
+  <p>Power: Super Spin - 30 Credits For One Time Use.</p>
+  <button onclick="openGame('pingpong')">Join Ping Pong - <span class="feeText">$10</span></button>
+  <button onclick="openShop('pingpong')">Ping Pong Shop - Rackets</button>
+</section>
+
+<!-- BOXING - RING STYLE -->
+<section class="game-card boxing">
+  <h2>Boxing Tournament</h2>
+  <p>Dark Ring. Spotlight. Crowd.</p>
+  <p>2 Gloves Free. Next Gloves With Credits. Gloves Step 1 Free.</p>
+  <p>Power: Power Punch - 30 Credits For One Time Use.</p>
+  <button onclick="openGame('boxing')">Join Boxing - <span class="feeText">$10</span></button>
+  <button onclick="openShop('boxing')">Boxing Shop - Gloves</button>
+</section>
+
+<!-- MOTOR - HILL STYLE -->
+<section class="game-card motor">
+  <h2>Motor Racing Hill Climb</h2>
+  <p>Hill. Dust. Garage.</p>
+  <p>2 Motors Free. Next Motors With Credits. Engine Step 1 Free.</p>
+  <p>Power: Blue Bottle - 30 Credits For One Time Use. Motor Jumps.</p>
+  <div class="garage-menu">
+    <button>SHOP</button>
+    <button>STAGE</button>
+    <button>VEHICLE</button>
+    <button>TUNE</button>
+    <button>START</button>
+  </div>
+  <button onclick="openGame('motor')">Join Motor Racing - <span class="feeText">$10</span></button>
+  <button onclick="openShop('motor')">Motor Shop - Motors</button>
+</section>
+
+<!-- WALLET -->
+<section id="walletSec">
   <h2>My Wallet</h2>
-  <div class="jazzcard">
-    <p>Wallet Balance</p>
-    <h1>Rs. <span id="wBal">0</span></h1>
-    <p>Min Deposit 100 | Min Withdraw 500 | Daily Limit 100,000</p>
-  </div>
-  <input id="depAmt" type="number" placeholder="Deposit Amount - Min 100">
-  <button onclick="doDeposit()" class="big-btn green">Deposit via Keenu</button>
-  <input id="withAmt" type="number" placeholder="Withdraw Amount - Min 500">
-  <button id="withBtn" onclick="doWithdraw()" class="big-btn gold">Withdraw Request</button>
-  <p id="withMsg" style="color:red"></p>
-  <h3>My Payment Accounts</h3>
-  <select id="payType">
-    <option>Jazz Cash</option><option>Easy Paisa</option><option>Naya Pay</option><option>Sada Pay</option><option>Raast</option><option>Bank - Meezan</option><option>Bank - HBL</option><option>Bank - UBL</option><option>Bank - Allied</option>
-  </select>
-  <input id="payNum" placeholder="Account / Mobile Number">
-  <button onclick="addAccount()">Add Account</button>
-  <div id="paymentAccounts"></div>
+  <p>Balance: <b id="wBal">$0</b></p>
+  <input id="depAmt" type="number" placeholder="Deposit Amount USD">
+  <button onclick="doDeposit()">Deposit With Card / PayPal</button>
+  <br><br>
+  <input id="withAmt" type="number" placeholder="Withdraw Amount USD">
+  <button onclick="doWithdraw()">Withdraw Request</button>
+  <p id="withMsg"></p>
+  <h3>Buy Credits</h3>
+  <p>Credits are used for upgrades, motors, bats, shoes, rackets, gloves, and power.</p>
+  <button onclick="buyCredits(100)">Buy 100 Credits</button>
+  <button onclick="buyCredits(500)">Buy 500 Credits</button>
 </section>
 
-<section id="loginSec" class="wallet-box">
+<!-- LOGIN / SIGNUP - EMAIL ONLY -->
+<section id="loginSec">
   <h2>Login / Signup</h2>
-  <button class="big-btn">Continue with Google</button>
-  <input id="regName" placeholder="Full Name">
-  <input id="regMobile" placeholder="Mobile Number">
+  <p>Only Email and Password. No Name. No Mobile. No Address.</p>
+  <p>Country: <button onclick="setCountry('INTL')">International - USD</button></p>
+  <h3>Create Account</h3>
+  <input id="regEmail" type="email" placeholder="Email">
   <input id="regPass" type="password" placeholder="Password">
-  <button onclick="doRegister()" class="big-btn green">Direct Register</button>
-  <input id="loginEmail" placeholder="Email">
+  <button onclick="doRegister()">Create Account</button>
+  <h3>Login</h3>
+  <input id="loginEmail" type="email" placeholder="Email">
   <input id="loginPass" type="password" placeholder="Password">
-  <button onclick="doLogin()" class="big-btn">Login with Email</button>
+  <button onclick="doLogin()">Login</button>
+  <h3>Your Referral Link</h3>
+  <p>Share your link. When a friend creates an account with your link, you get 15 Credits.</p>
+  <input id="refLink" readonly placeholder="Login to get your referral link">
+  <button onclick="copyReferral()">Copy Referral Link</button>
 </section>
 
-<section class="wallet-box">
-  <h2>Admin Dashboard</h2>
-  <p>Withdrawal requests will appear here. Admin will approve.</p>
-  <div id="adminList">No requests yet</div>
-  <h3>Leaderboard - Top Winners</h3>
-  <div id="leaderboard">1. Champion - Rs. 7500<br>2. Runner Up<br>3. Top Player</div>
-</section>
-
-<footer style="text-align:center;padding:20px;color:#aaa">
-  <a href="privacy.html" style="color:#00ff88;margin:5px">Privacy Policy</a> |
-  <a href="terms.html" style="color:#00ff88;margin:5px">Terms & Conditions</a> |
-  <a href="refund.html" style="color:#00ff88;margin:5px">Refund Policy</a>
-  <p>© 2026 HpL - Hussain Premier League. All Rights Reserved.</p>
-</footer><div style="text-align:center; font-size:11px; color:#888; padding:8px; line-height:1.5;">
-<p style="margin:0;">© 2026 HpL - Hussain Premier League | Harnai, Balochistan, Pakistan</p>
-<p style="margin:0;">Contact: 03248339151 | qismatullah653@gmail.com</p>
-<p style="margin:0;">Services: Cricket | Football | Ping Pong | Boxing | Motor Racing | Registration | Prize Distribution | Live Management</p>
-</div>
+<footer>
+  <p>Hussain Premier League</p>
+  <p><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="refund.html">Refund</a></p>
+  <p>Skill Based Tournament. Play Responsibly.</p>
+</footer>
 
 <script src="app.js"></script>
 </body>
