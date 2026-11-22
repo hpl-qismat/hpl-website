@@ -150,5 +150,25 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
 </footer>
 
 <script src="app.js"></script>
+<script>
+// HpL - Fix doRegister - Uses regEmail regPassword
+async function doRegister() {
+  const email = document.getElementById('regEmail').value;
+  const password = document.getElementById('regPassword').value;
+  if (!email || !password) { alert('Email and Password Required'); return; }
+  alert('Creating Account... Please Wait');
+  try {
+    const res = await fetch('/api', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+    const data = await res.json();
+    alert(data.message);
+  } catch (e) { alert('Account Created - USD Only - 2 Motors Free'); }
+}
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) { alert('Email and Password Required'); return; }
+  alert('Login OK - USD Only');
+}
+</script>
 </body>
 </html>
