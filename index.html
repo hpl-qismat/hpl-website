@@ -3,13 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hussain Premier League - Play. Win. Become Champion.</title>
-<link rel="stylesheet" href="style.css">
+<title>Holland Premier League - Play. Win. Become Champion.</title>
+<style>
+body { margin: 0; font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; }
+.topbar { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #111; border-bottom: 2px solid gold; }
+.logo { font-weight: bold; color: gold; font-size: 18px; }
+.top-right span { margin-right: 10px; font-size: 14px; }
+button { background: gold; color: #000; border: none; padding: 10px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 4px; }
+button:hover { background: #ffcc00; }
+.hero { text-align: center; padding: 30px 12px; background: linear-gradient(180deg, #222, #000); }
+.hero h1 { color: gold; font-size: 30px; }
+.fee-box { text-align: center; background: #1a1a1a; padding: 20px; margin: 12px; border-radius: 12px; border: 1px solid gold; }
+.fee-control { display: flex; justify-content: center; align-items: center; gap: 16px; font-size: 28px; }
+.fee-control button { font-size: 26px; width: 50px; height: 50px; border-radius: 50%; }
+.game-card { margin: 12px; padding: 18px; border-radius: 14px; }
+.cricket { background: linear-gradient(180deg, #0a5c2a, #063d1b); }
+.football { background: linear-gradient(180deg, #1a3a6b, #0a1f3d); }
+.pingpong { background: linear-gradient(180deg, #0a5a7a, #063a4d); }
+.boxing { background: linear-gradient(180deg, #2a0a0a, #000); border: 1px solid red; }
+.motor { background: linear-gradient(180deg, #5a3a0a, #2a1a00); }
+.garage-menu { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.garage-menu button { background: #333; color: #fff; }
+#walletSec, #loginSec { background: #151515; margin: 12px; padding: 18px; border-radius: 12px; }
+input { width: 92%; padding: 11px; margin: 6px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; }
+footer { text-align: center; padding: 20px; background: #111; color: #aaa; font-size: 13px; }
+footer a { color: gold; text-decoration: none; margin: 0 6px; }
+</style>
 </head>
 <body>
 
 <header class="topbar">
-  <div class="logo">HUSSAIN PREMIER LEAGUE</div>
+  <div class="logo">HOLLAND PREMIER LEAGUE</div>
   <div class="top-right">
     <span>Credits: <b id="creditBal">0</b></span>
     <span>Wallet: <b id="walletBal">$0</b></span>
@@ -23,7 +47,6 @@
   <p>Winner Gets 60%. Runner Up Gets 25%. Tournament Win Gives 500 Credits.</p>
 </section>
 
-<!-- ENTRY FEE SELECTOR - SAME FOR ALL GAMES -->
 <section class="fee-box">
   <h2>Select Entry Fee</h2>
   <div class="fee-control">
@@ -35,7 +58,6 @@
   <p id="prizePreview">Winner: $6 | Runner Up: $2.50</p>
 </section>
 
-<!-- CRICKET - GREEN GROUND STYLE -->
 <section class="game-card cricket">
   <h2>Cricket Tournament</h2>
   <p>Green Ground. Pitch. Wicket.</p>
@@ -45,7 +67,6 @@
   <button onclick="openShop('cricket')">Cricket Shop - Bats</button>
 </section>
 
-<!-- FOOTBALL - STADIUM STYLE -->
 <section class="game-card football">
   <h2>Football Tournament</h2>
   <p>Stadium. Lights. Crowd.</p>
@@ -55,7 +76,6 @@
   <button onclick="openShop('football')">Football Shop - Shoes</button>
 </section>
 
-<!-- PING PONG - TABLE STYLE -->
 <section class="game-card pingpong">
   <h2>Ping Pong Tournament</h2>
   <p>Blue Table. Fast Game.</p>
@@ -65,7 +85,6 @@
   <button onclick="openShop('pingpong')">Ping Pong Shop - Rackets</button>
 </section>
 
-<!-- BOXING - RING STYLE -->
 <section class="game-card boxing">
   <h2>Boxing Tournament</h2>
   <p>Dark Ring. Spotlight. Crowd.</p>
@@ -75,7 +94,6 @@
   <button onclick="openShop('boxing')">Boxing Shop - Gloves</button>
 </section>
 
-<!-- MOTOR - HILL STYLE -->
 <section class="game-card motor">
   <h2>Motor Racing Hill Climb</h2>
   <p>Hill. Dust. Garage.</p>
@@ -92,7 +110,6 @@
   <button onclick="openShop('motor')">Motor Shop - Motors</button>
 </section>
 
-<!-- WALLET -->
 <section id="walletSec">
   <h2>My Wallet</h2>
   <p>Balance: <b id="wBal">$0</b></p>
@@ -108,7 +125,6 @@
   <button onclick="buyCredits(500)">Buy 500 Credits</button>
 </section>
 
-<!-- LOGIN / SIGNUP - EMAIL ONLY -->
 <section id="loginSec">
   <h2>Login / Signup</h2>
   <p>Only Email and Password. No Name. No Mobile. No Address.</p>
@@ -128,7 +144,7 @@
 </section>
 
 <footer>
-  <p>Hussain Premier League</p>
+  <p>Holland Premier League</p>
   <p><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="refund.html">Refund</a></p>
   <p>Skill Based Tournament. Play Responsibly.</p>
 </footer>
