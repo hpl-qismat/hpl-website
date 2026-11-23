@@ -1,4 +1,4 @@
-mom<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -26,12 +26,15 @@ button:hover { background: #ffcc00; }
 .garage-menu button { background: #333; color: #fff; }
 #walletSec, #loginSec { background: #151515; margin: 12px; padding: 18px; border-radius: 12px; }
 input { width: 92%; padding: 11px; margin: 6px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; }
+.pass-wrap { position: relative; width: 100%; }
+.pass-wrap input { width: 92%; padding-right: 40px; }
+.eye-btn { position: absolute; right: 8px; top: 8px; background: #333; color: #fff; padding: 6px 10px; border-radius: 6px; }
+.pass-hint { font-size: 12px; color: #aaa; margin: 2px 0 8px 0; }
 footer { text-align: center; padding: 20px; background: #111; color: #aaa; font-size: 13px; }
 footer a { color: gold; text-decoration: none; margin: 0 6px; }
 </style>
 </head>
 <body>
-
 <header class="topbar">
   <div class="logo">HOLLAND PREMIER LEAGUE</div>
   <div class="top-right">
@@ -40,13 +43,11 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
     <button onclick="document.getElementById('loginSec').scrollIntoView({behavior:'smooth'})">Login / Signup</button>
   </div>
 </header>
-
 <section class="hero">
   <h1>Play. Win. Become Champion.</h1>
   <p>5 Games. One Account. One Credit System. Entry $10 to $250.</p>
   <p>Winner Gets 60%. Runner Up Gets 25%. Tournament Win Gives 500 Credits.</p>
 </section>
-
 <section class="fee-box">
   <h2>Select Entry Fee</h2>
   <div class="fee-control">
@@ -57,7 +58,6 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <p>Min $10. Max $250. Step $10.</p>
   <p id="prizePreview">Winner: $6 | Runner Up: $2.50</p>
 </section>
-
 <section class="game-card cricket">
   <h2>Cricket Tournament</h2>
   <p>Green Ground. Pitch. Wicket.</p>
@@ -66,7 +66,6 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <button onclick="openGame('cricket')">Join Cricket - <span class="feeText">$10</span></button>
   <button onclick="openShop('cricket')">Cricket Shop - Bats</button>
 </section>
-
 <section class="game-card football">
   <h2>Football Tournament</h2>
   <p>Stadium. Lights. Crowd.</p>
@@ -75,7 +74,6 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <button onclick="openGame('football')">Join Football - <span class="feeText">$10</span></button>
   <button onclick="openShop('football')">Football Shop - Shoes</button>
 </section>
-
 <section class="game-card pingpong">
   <h2>Ping Pong Tournament</h2>
   <p>Blue Table. Fast Game.</p>
@@ -84,7 +82,6 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <button onclick="openGame('pingpong')">Join Ping Pong - <span class="feeText">$10</span></button>
   <button onclick="openShop('pingpong')">Ping Pong Shop - Rackets</button>
 </section>
-
 <section class="game-card boxing">
   <h2>Boxing Tournament</h2>
   <p>Dark Ring. Spotlight. Crowd.</p>
@@ -93,7 +90,6 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <button onclick="openGame('boxing')">Join Boxing - <span class="feeText">$10</span></button>
   <button onclick="openShop('boxing')">Boxing Shop - Gloves</button>
 </section>
-
 <section class="game-card motor">
   <h2>Motor Racing Hill Climb</h2>
   <p>Hill. Dust. Garage.</p>
@@ -109,7 +105,6 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <button onclick="openGame('motor')">Join Motor Racing - <span class="feeText">$10</span></button>
   <button onclick="openShop('motor')">Motor Shop - Motors</button>
 </section>
-
 <section id="walletSec">
   <h2>My Wallet</h2>
   <p>Balance: <b id="wBal">$0</b></p>
@@ -124,34 +119,42 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <button onclick="buyCredits(100)">Buy 100 Credits</button>
   <button onclick="buyCredits(500)">Buy 500 Credits</button>
 </section>
-
 <section id="loginSec">
   <h2>Login / Signup</h2>
   <p>Only Email and Password. No Name. No Mobile. No Address.</p>
   <p>Country: <button onclick="setCountry('INTL')">International - USD</button></p>
   <h3>Create Account</h3>
   <input id="regEmail" type="email" placeholder="Email">
-  <input id="regPass" type="password" placeholder="Password">
+  <div class="pass-wrap">
+    <input id="regPassword" type="password" placeholder="Password - Min 8 Characters">
+    <button type="button" class="eye-btn" onclick="togglePass('regPassword', this)">👁️</button>
+  </div>
+  <p class="pass-hint">Password must be 8 to 12 characters, include 1 Number and 1 Letter. Keep your ID Safe.</p>
   <button onclick="doRegister()">Create Account</button>
   <h3>Login</h3>
   <input id="loginEmail" type="email" placeholder="Email">
-  <input id="loginPass" type="password" placeholder="Password">
+  <div class="pass-wrap">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button type="button" class="eye-btn" onclick="togglePass('loginPassword', this)">👁️</button>
+  </div>
   <button onclick="doLogin()">Login</button>
   <h3>Your Referral Link</h3>
   <p>Share your link. When a friend creates an account with your link, you get 15 Credits.</p>
   <input id="refLink" readonly placeholder="Login to get your referral link">
   <button onclick="copyReferral()">Copy Referral Link</button>
 </section>
-
 <footer>
   <p>Holland Premier League</p>
   <p><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="refund.html">Refund</a></p>
   <p>Skill Based Tournament. Play Responsibly.</p>
 </footer>
-
 <script src="app.js"></script>
 <script>
-
-<script src="app.js"></script>
+function togglePass(id, btn) {
+  const inp = document.getElementById(id);
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁️'; }
+}
+</script>
 </body>
 </html>
