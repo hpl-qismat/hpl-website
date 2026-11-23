@@ -32,6 +32,15 @@ input { width: 92%; padding: 11px; margin: 6px 0; border-radius: 8px; border: 1p
 .pass-hint { font-size: 12px; color: #aaa; margin: 2px 0 8px 0; }
 footer { text-align: center; padding: 20px; background: #111; color: #aaa; font-size: 13px; }
 footer a { color: gold; text-decoration: none; margin: 0 6px; }
+.game-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; padding: 14px; overflow: auto; box-sizing: border-box; }
+.modal-cricket { background: linear-gradient(180deg, #0a5c2a, #063d1b); }
+.modal-football { background: linear-gradient(180deg, #1a3a6b, #0a1f3d); }
+.modal-pingpong { background: linear-gradient(180deg, #0a5a7a, #063a4d); }
+.modal-boxing { background: linear-gradient(180deg, #2a0a0a, #000); }
+.modal-motor { background: linear-gradient(180deg, #5a3a0a, #2a1a00); }
+.game-area { height: 260px; border-radius: 12px; position: relative; overflow: hidden; text-align: center; padding-top: 16px; font-size: 60px; background: rgba(0,0,0,0.35); border: 2px solid #fff; }
+.game-ball { font-size: 60px; display: inline-block; transition: transform 0.2s; }
+.close-btn { background: red; color: #fff; }
 </style>
 </head>
 <body>
@@ -109,7 +118,7 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <h2>My Wallet</h2>
   <p>Balance: <b id="wBal">$0</b></p>
   <input id="depAmt" type="number" placeholder="Deposit Amount USD">
-  <button onclick="doDeposit()">Deposit With Card / PayPal</button>
+  <button onclick="doDeposit()">Deposit With Card / 【entity-PayPal¦canonical_name=PayPal】</button>
   <br><br>
   <input id="withAmt" type="number" placeholder="Withdraw Amount USD">
   <button onclick="doWithdraw()">Withdraw Request</button>
@@ -148,6 +157,58 @@ footer a { color: gold; text-decoration: none; margin: 0 6px; }
   <p><a href="terms.html">Terms</a> | <a href="privacy.html">Privacy</a> | <a href="refund.html">Refund</a></p>
   <p>Skill Based Tournament. Play Responsibly.</p>
 </footer>
+
+<!-- GAME 1 - CRICKET -->
+<div id="modal-cricket" class="game-modal modal-cricket">
+  <button class="close-btn" onclick="closeGame('cricket')">X Close</button>
+  <h2>🏏 Cricket - Green Ground</h2>
+  <p>Score: <b id="score-cricket">0</b> | Fee: <b id="fee-cricket">$10</b></p>
+  <div class="game-area"><span id="obj-cricket" class="game-ball">🏏</span><br>🏟️ Wicket - Pitch</div>
+  <br><button onclick="playGame('cricket')">🏏 HIT BAT</button>
+  <button onclick="usePower('cricket')" style="background:green; color:#fff;">⚡ Energy Drink - 30 Credits</button>
+  <p id="msg-cricket">Press HIT - 10 Hits = Win 500 Credits</p>
+</div>
+<!-- GAME 2 - FOOTBALL -->
+<div id="modal-football" class="game-modal modal-football">
+  <button class="close-btn" onclick="closeGame('football')">X Close</button>
+  <h2>⚽ Football - Stadium</h2>
+  <p>Score: <b id="score-football">0</b> | Fee: <b id="fee-football">$10</b></p>
+  <div class="game-area"><span id="obj-football" class="game-ball">⚽</span><br>🥅 Goal - Lights</div>
+  <br><button onclick="playGame('football')">⚽ KICK BALL</button>
+  <button onclick="usePower('football')" style="background:blue; color:#fff;">⚡ Power Shot - 30 Credits</button>
+  <p id="msg-football">Press KICK - 10 Goals = Win 500 Credits</p>
+</div>
+<!-- GAME 3 - PING PONG -->
+<div id="modal-pingpong" class="game-modal modal-pingpong">
+  <button class="close-btn" onclick="closeGame('pingpong')">X Close</button>
+  <h2>🏓 Ping Pong - Blue Table</h2>
+  <p>Score: <b id="score-pingpong">0</b> | Fee: <b id="fee-pingpong">$10</b></p>
+  <div class="game-area"><span id="obj-pingpong" class="game-ball">🏓</span><br>🔵 Blue Table - Fast</div>
+  <br><button onclick="playGame('pingpong')">🏓 HIT BALL</button>
+  <button onclick="usePower('pingpong')" style="background:cyan; color:#000;">⚡ Super Spin - 30 Credits</button>
+  <p id="msg-pingpong">Press HIT - 10 Hits = Win 500 Credits</p>
+</div>
+<!-- GAME 4 - BOXING -->
+<div id="modal-boxing" class="game-modal modal-boxing">
+  <button class="close-btn" onclick="closeGame('boxing')">X Close</button>
+  <h2>🥊 Boxing - Dark Ring</h2>
+  <p>Score: <b id="score-boxing">0</b> | Fee: <b id="fee-boxing">$10</b></p>
+  <div class="game-area"><span id="obj-boxing" class="game-ball">🥊</span><br>🥊 Ring - Spotlight</div>
+  <br><button onclick="playGame('boxing')">🥊 PUNCH</button>
+  <button onclick="usePower('boxing')" style="background:red; color:#fff;">⚡ Power Punch - 30 Credits</button>
+  <p id="msg-boxing">Press PUNCH - 10 Punches = Win 500 Credits</p>
+</div>
+<!-- GAME 5 - MOTOR -->
+<div id="modal-motor" class="game-modal modal-motor">
+  <button class="close-btn" onclick="closeGame('motor')">X Close</button>
+  <h2>🏍️ Motor Racing - Hill Climb</h2>
+  <p>Score: <b id="score-motor">0</b> | Fee: <b id="fee-motor">$10</b></p>
+  <div class="game-area"><span id="obj-motor" class="game-ball">🏍️</span><br>⛰️ Hill - Dust - Garage</div>
+  <br><button onclick="playGame('motor')">🏍️ RACE / JUMP</button>
+  <button onclick="usePower('motor')" style="background:blue; color:#fff;">💙 Blue Bottle - 30 Credits - Motor Jumps</button>
+  <p id="msg-motor">Press RACE - 10 Jumps = Win 500 Credits</p>
+</div>
+
 <script src="app.js"></script>
 <script>
 function togglePass(id, btn) {
@@ -157,4 +218,4 @@ function togglePass(id, btn) {
 }
 </script>
 </body>
-</html>
+</html>.
