@@ -1,7 +1,9 @@
 {
-  "version": 2,
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "/Server.js" },
-    { "source": "/(.*)", "destination": "/$1" }
-  ]
+  "name": "hpl-website",
+  "version": "1.0.0",
+  "description": "Holland Premier League - USD Only",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  }
 }
