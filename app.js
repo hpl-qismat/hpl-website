@@ -1,6 +1,7 @@
-// HpL - Tiny App - Fixed - Strong Password + Eye - USD Only
+// HpL - App.js - 5 Games - Strong Password + Eye - USD Only
 let currentFee = 10;
 let token = '';
+let scores = { cricket: 0, football: 0, pingpong: 0, boxing: 0, motor: 0 };
 
 function changeFee(step) {
   currentFee += step;
@@ -32,12 +33,68 @@ function isStrongPassword(p) {
   return hasLetter && hasNumber;
 }
 
+// 5 GAMES - OPEN GAME PARDA
 function openGame(name) {
   if (!token) { alert('Please Login First'); return; }
-  alert(name + ' Joined - Fee $' + currentFee);
+  scores[name] = 0;
+  const scoreEl = document.getElementById('score-' + name);
+  if (scoreEl) scoreEl.innerText = '0';
+  const feeEl = document.getElementById('fee-' + name);
+  if (feeEl) feeEl.innerText = '$' + currentFee;
+  const modal = document.getElementById('modal-' + name);
+  if (modal) modal.style.display = 'block';
+  else alert(name + ' Joined - Fee $' + currentFee);
 }
 
-function openShop(game) { alert(game + ' Shop - 2 Free'); }
+function closeGame(name) {
+  const modal = document.getElementById('modal-' + name);
+  if (modal) modal.style.display = 'none';
+}
+
+// 5 GAMES - PLAY BUTTON - HAR GAME ALAG
+function playGame(name) {
+  scores[name] += 10;
+  const scoreEl = document.getElementById('score-' + name);
+  if (scoreEl) scoreEl.innerText = scores[name];
+  const obj = document.getElementById('obj-' + name);
+  if (obj) {
+    if (name === 'motor') obj.style.transform = 'translateY(-40px) rotate(10deg)';
+    if (name === 'cricket') obj.style.transform = 'rotate(30deg) scale(1.2)';
+    if (name === 'football') obj.style.transform = 'translateX(40px) translateY(-30px)';
+    if (name === 'pingpong') obj.style.transform = 'translateX(-30px) translateY(-30px)';
+    if (name === 'boxing') obj.style.transform = 'scale(1.4)';
+    setTimeout(() => { if (obj) obj.style.transform = 'translate(0) rotate(0) scale(1)'; }, 200);
+  }
+  const msg = document.getElementById('msg-' + name);
+  if (scores[name] >= 100) {
+    if (msg) msg.innerText = 'YOU WIN - 500 Credits Added - Winner 60% - Runner Up 25%';
+    alert('YOU WIN - ' + name + ' - 500 Credits Added!');
+    scores[name] = 0;
+    if (scoreEl) scoreEl.innerText = '0';
+  } else {
+    if (msg) msg.innerText = 'Score ' + scores[name] + ' - Keep Playing - 100 = Win 500 Credits!';
+  }
+}
+
+// 5 GAMES - POWER BUTTON - HAR GAME ALAG POWER
+function usePower(name) {
+  scores[name] += 20;
+  const scoreEl = document.getElementById('score-' + name);
+  if (scoreEl) scoreEl.innerText = scores[name];
+  const obj = document.getElementById('obj-' + name);
+  if (obj) {
+    if (name === 'motor') { obj.style.transform = 'translateY(-70px)'; alert('Blue Bottle Used - 30 Credits - Motor Jumps High!'); }
+    if (name === 'cricket') { obj.style.transform = 'rotate(60deg) scale(1.5)'; alert('Energy Drink Used - 30 Credits - Power Hit!'); }
+    if (name === 'football') { obj.style.transform = 'translateX(70px) translateY(-50px) scale(1.3)'; alert('Power Shot Used - 30 Credits - Goal!'); }
+    if (name === 'pingpong') { obj.style.transform = 'translateX(-60px) translateY(-50px) rotate(30deg)'; alert('Super Spin Used - 30 Credits - Fast Spin!'); }
+    if (name === 'boxing') { obj.style.transform = 'scale(1.8)'; alert('Power Punch Used - 30 Credits - Knockout Punch!'); }
+    setTimeout(() => { if (obj) obj.style.transform = 'translate(0) rotate(0) scale(1)'; }, 400);
+  }
+  const msg = document.getElementById('msg-' + name);
+  if (msg) msg.innerText = 'Power Used - Score ' + scores[name] + ' - Keep Playing!';
+}
+
+function openShop(game) { alert(game + ' Shop - 2 Free - Next With Credits - Step 1 Free'); }
 
 function doRegister() {
   alert('Button Clicked!');
@@ -61,7 +118,7 @@ function doLogin() {
   alert('Login OK - USD Only - Welcome ' + email);
 }
 
-function doDeposit() { alert('Deposit With Paddle - Card / PayPal - Minimum $10'); }
+function doDeposit() { alert('Deposit With Paddle - Card / 【entity-PayPal¦canonical_name=PayPal】 - Minimum $10'); }
 function doWithdraw() { alert('Withdraw Request Sent To Admin'); }
 function buyCredits(a) { alert('Buy ' + a + ' Credits'); }
 function copyReferral() {
